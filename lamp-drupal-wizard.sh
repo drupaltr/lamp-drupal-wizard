@@ -566,9 +566,11 @@ function install_pressflow {
     chown -R root:www-data /srv/www/*
     chmod -R 775 /srv/www/$FQDN/public_html/sites
     chmod 755 /srv/www/$FQDN/public_html/sites/all/modules/
+    
     # Linode's mysql_create_database function doesn't escape properly, so we use mysqladmin instead
-    /usr/bin/mysqladmin create -u root -p"${DB_PASSWORD}" "${DB_NAME}"
-    mysql_create_user "$DB_PASSWORD" "$DB_USER" "$DB_USER_PASSWORD"
+    # /usr/bin/mysqladmin create -u root -p"${DB_PASSWORD}" "${DB_NAME}"
+    # mysql_create_user "$DB_PASSWORD" "$DB_USER" "$DB_USER_PASSWORD"
+    
     mysql_grant_user "$DB_PASSWORD" "$DB_USER" "$DB_NAME"          
     sed -i "/^$db_url/s/mysql\:\/\/username:password/mysqli\:\/\/$DB_USER:$DB_USER_PASSWORD/" /srv/www/$FQDN/public_html/sites/default/settings.php                                                              
     sed -i "/^$db_url/s/databasename/$DB_NAME/" /srv/www/$FQDN/public_html/sites/default/settings.php               
@@ -578,7 +580,7 @@ function install_pressflow {
 function install_mercury_profile {
 	echo
     logit "Installing Mercury Drupal Profile"
-    bzr --use-existing-dir branch lp:pantheon/profiles /srv/www/$FQDN/public_html/profiles/
+    bzr branch lp:pantheon/profiles /srv/www/$FQDN/public_html/profiles/
     logit "Done installing Mercury Drupal Profile"
 }
 
@@ -587,6 +589,8 @@ function install_solr_module {
     logit "Installing Solr Drupal module"
     drush dl --destination=/srv/www/$FQDN/public_html/sites/all/modules apachesolr
     svn checkout -r22 http://solr-php-client.googlecode.com/svn/trunk/ /srv/www/$FQDN/public_html/sites/all/modules/apachesolr/SolrPhpClient
+    
+    mkdir -p /var/solr/conf
     mv /srv/www/$FQDN/public_html/sites/all/modules/apachesolr/schema.xml /var/solr/conf/
     mv /srv/www/$FQDN/public_html/sites/all/modules/apachesolr/solrconfig.xml /var/solr/conf/ 
     logit "Done installing Solr Drupal module"
@@ -657,6 +661,16 @@ function notify_input {
 	read -e NOTIFY_EMAIL
 }
 
+function webmin_install {
+	logit "Installing and configuring Webmin"
+	
+	wget http://prdownloads.sourceforge.net/webadmin/webmin_1.510-2_all.deb
+	dpkg --install webmin_1.510-2_all.deb
+	apt-get install -f -y
+	
+	logit "Done installing and configuring Webmin"
+}
+
 if [ -n "${ADMIN_USER}" ]; then
     if [ -n "${ADMIN_PUBKEY}" ]; then
         add_admin_user "${ADMIN_USER}" "${ADMIN_PUBKEY}"
@@ -694,6 +708,7 @@ php_tune
 goodstuff
 restartServices
 randomString
+webmin_install
 
 echo
 logit "Installing and configuring Postfix"
