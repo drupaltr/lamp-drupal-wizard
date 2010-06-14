@@ -329,7 +329,7 @@ function php_tune {
 function goodstuff {
 	# Installs the REAL vim, wget, less, and enables color root prompt and the "ll" list long alias
 
-	aptitude -y install wget vim less git-core
+	aptitude -y install wget vim less git-core subversion
 	sed -i -e 's/^#PS1=/PS1=/' /root/.bashrc # enable the colorful root bash prompt
 	sed -i -e "s/^#alias ll='ls -l'/alias ll='ls -al'/" /root/.bashrc # enable ll list long alias <3
 }
