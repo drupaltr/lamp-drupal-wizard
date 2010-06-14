@@ -1,0 +1,8 @@
+Just run the .sh file with
+
+./lamp-drupal-wizard.sh
+
+If you can't you need to:
+
+sudo chmod u+x lamp-drupal-wizard.sh
+
