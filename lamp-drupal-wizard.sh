@@ -82,7 +82,7 @@ function postfix_install_loopback_only {
 ###########################################################
 
 function apache_input {
-	echo -n "Fully Qualified Domain Name"
+	echo -n "Fully Qualified Domain Name: "
 	read -e FQDN
 }
 
@@ -174,13 +174,13 @@ function apache_virtualhost_get_docroot {
 ###########################################################
 
 function mysql_input {
-	echo -n "Root password for MySQL"
+	echo -n "Root password for MySQL: "
 	read -e DB_PASSWORD
-	echo -n "Database name"
+	echo -n "Database name: "
 	read -e DB_NAME
-	echo -n "Database user"
+	echo -n "Database user: "
 	read -e DB_USER
-	echo -n "Database user password"
+	echo -n "Database user password: "
 	read -e DB_USER_PASSWORD
 }
 
@@ -632,10 +632,10 @@ function set_fqdn {
 }
 
 function user_input {
-	echo -n "Administrative User"
+	echo -n "Administrative User: "
 	read -e ADMIN_USER
 	
-	echo -n "Administrative User's SSH Public Key"
+	echo -n "Administrative User's SSH Public Key (not required): "
 	read -e ADMIN_PUBKEY
 }
 
@@ -653,12 +653,9 @@ function add_admin_user {
 }
 
 function notify_input {
-	echo -n "Send Finish Notification To"
+	echo -n "Send Finish Notification To Email: "
 	read -e NOTIFY_EMAIL
 }
-
-#Log everything to a file
-exec &> /tmp/stackscript.log
 
 if [ -n "${ADMIN_USER}" ]; then
     if [ -n "${ADMIN_PUBKEY}" ]; then
