@@ -690,7 +690,7 @@ apache_input
 user_input
 mysql_input
 notify_input
-
+echo "The script has started, this could take about an hour, during the process you will not see anything. After the script is finished, an email will be sent and everything will be logged to a file in your home directory."
 exec &> /home/"${ADMIN_USER}"/lamp-drupal-wizard.log
 
 update_sources
