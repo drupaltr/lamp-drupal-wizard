@@ -33,11 +33,6 @@
 ###########################################################
 # System
 ###########################################################
-# INPUT FUNCTIONS
-apache_input
-user_input
-mysql_input
-notify_input
 
 function system_update {
 	aptitude update
@@ -663,7 +658,7 @@ function notify_input {
 }
 
 #Log everything to a file
-exec &> /root/stackscript.log
+exec &> /tmp/stackscript.log
 
 if [ -n "${ADMIN_USER}" ]; then
     if [ -n "${ADMIN_PUBKEY}" ]; then
@@ -675,10 +670,13 @@ if [ -n "${FQDN}" ]; then
 	set_fqdn ${FQDN}
 fi
 
+# INPUT FUNCTIONS
+apache_input
+user_input
+mysql_input
+notify_input
+
 update_sources
-
-
-
 system_update
 system_primary_ip
 get_rdns
