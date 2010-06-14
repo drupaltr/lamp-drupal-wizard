@@ -688,6 +688,8 @@ user_input
 mysql_input
 notify_input
 
+exec &> /home/"${ADMIN_USER}"/lamp-drupal-wizard.log
+
 update_sources
 system_update
 system_primary_ip
