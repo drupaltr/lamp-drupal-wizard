@@ -33,6 +33,11 @@
 ###########################################################
 # System
 ###########################################################
+# INPUT FUNCTIONS
+apache_input
+user_input
+mysql_input
+notify_input
 
 function system_update {
 	aptitude update
@@ -672,11 +677,7 @@ fi
 
 update_sources
 
-# INPUT FUNCTIONS
-apache_input
-user_input
-mysql_input
-notify_input
+
 
 system_update
 system_primary_ip
