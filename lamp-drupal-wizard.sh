@@ -359,7 +359,8 @@ function randomString {
                                                                 
 ###########################################################
 # Phanteon Mercury
-# Rest of this script was written by Justin Ellison <justin@techadvise.com>
+# Original script was written by Justin Ellison <justin@techadvise.com>
+# Modifications by Luis Elizondo <lelizondo@gmail.com>
 ###########################################################
 
 function logit {
@@ -740,8 +741,8 @@ if [ -n "${NOTIFY_EMAIL}" ]; then
     logit "Sending notification email to ${NOTIFY_EMAIL}"
     /usr/sbin/sendmail "${NOTIFY_EMAIL}" <<EOD
 To: ${NOTIFY_EMAIL}
-Subject: Mercury StackScript is complete
-From: Mercury StackScript <no-reply@linode.com>
+Subject: Your Mercury installation is complete
+From: Mercury <no-reply@linode.com>
 
 Your Mercury installation is complete and now ready to be configured: http://$(system_primary_ip)/install.php  Select "Mercury" as your installation profile, and continue as you normally would.
 
