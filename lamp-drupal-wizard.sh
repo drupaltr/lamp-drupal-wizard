@@ -665,8 +665,11 @@ function notify_input {
 function webmin_install {
 	logit "Installing and configuring Webmin"
 	
-	wget http://prdownloads.sourceforge.net/webadmin/webmin_1.510-2_all.deb
-	dpkg --install webmin_1.510-2_all.deb
+	WEBMIN=webmin_1.510-2_all.deb
+	
+	wget http://prdownloads.sourceforge.net/webadmin/"{$WEBMIN}"
+	mv "{$WEBMIN}" /tmp
+	dpkg --install /tmp/"{$WEBMIN}"
 	apt-get install -f -y
 	
 	logit "Done installing and configuring Webmin"
