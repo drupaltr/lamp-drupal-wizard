@@ -520,6 +520,9 @@ function start_BCFG2 {
 }
 
 function install_solr {
+	
+	SOLR_TGZ=http://mirror.atlanticmetro.net/apache/lucene/solr/1.4.0/apache-solr-1.4.0.tgz
+	
 	echo
     logit "Installing Solr"
     DATE=$(date +%Y-%m-%d)
@@ -667,9 +670,9 @@ function webmin_install {
 	
 	WEBMIN=webmin_1.510-2_all.deb
 	
-	wget http://prdownloads.sourceforge.net/webadmin/"{$WEBMIN}"
-	mv "{$WEBMIN}" /tmp
-	dpkg --install /tmp/"{$WEBMIN}"
+	wget http://prdownloads.sourceforge.net/webadmin/$WEBMIN
+	mv $WEBMIN /tmp
+	dpkg --install /tmp/$WEBMIN
 	apt-get install -f -y
 	
 	logit "Done installing and configuring Webmin"
