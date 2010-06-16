@@ -752,8 +752,13 @@ To: ${NOTIFY_EMAIL}
 Subject: Your Mercury installation is complete
 From: Mercury <no-reply@linode.com>
 
-Your Mercury installation is complete and now ready to be configured: http://$(system_primary_ip)/install.php  Select "Mercury" as your installation profile, and continue as you normally would. You can also access Webmin by going to: https://$(system_primary_ip):10000
+Your Mercury installation is complete and now ready to be configured: http://$(system_primary_ip)/install.php  Select "Mercury" as your installation profile, and continue as you normally would. You can also access Webmin by going to: https://$(system_primary_ip):10000. In a few seconds you will receive an email with the log of the script.
 
 Enjoy the speed of Mercury!
 EOD
+fi
+
+if [ -n "${NOTIFY_EMAIL}" ]; then
+    logit "Sending email with log to ${NOTIFY_EMAIL}"
+    cat /home/"${ADMIN_USER}"/lamp-drupal-wizard.log | mail -s "Script Log" "${NOTIFY_EMAIL}" 
 fi
