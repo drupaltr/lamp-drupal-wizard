@@ -4,7 +4,7 @@ The script was adapted so you can run it from shell, it was tested on Ubuntu 10.
 
 The script IS NOT INTENDED TO BE USED IN A RUNNING SERVER. Use this script only to configure a server after you have installed it.
 
-This script is provided "AS IS" with no warranty.
+This script is provided "AS IS" with no warranty. Be aware that if you modify the script, you must agree to the terms provided with the script. For more information about the licence, read the lamp-drupal-wizard.sh script lines from 2 to 31.
 
 ============================
 == Steps
