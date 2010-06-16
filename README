@@ -1,8 +1,19 @@
-Just run the .sh file with
+The following script is taken from Linode.com and is a collection of two scripts that will install and configure a LAMP server and optimize it to use Drupal/Pressflow.
 
-./lamp-drupal-wizard.sh
+The script was adapted so you can run it from shell, it was tested on Ubuntu 10.04 but it should work on other Ubuntu/Debian installations, if it does please report it back to lelizondo at gmail.com
 
-If you can't you need to:
+The script IS NOT INTENDED TO BE USED IN A RUNNING SERVER. Use this script only to configure a server after you have installed it.
+
+This script is provided "AS IS" with no warranty.
+
+============================
+== Steps
+============================
+
+To run the script you first have to make it executable with:
 
 sudo chmod u+x lamp-drupal-wizard.sh
 
+Then just run the .sh file as root with:
+
+sudo ./lamp-drupal-wizard.sh
