@@ -14,7 +14,7 @@
 # * Redistributions in binary form must reproduce the above copyright notice, this
 # list of conditions and the following disclaimer in the documentation and/or
 # other materials provided with the distribution.
-#
+#–
 # * Neither the name of Linode LLC nor the names of its contributors may be
 # used to endorse or promote products derived from this software without specific prior
 # written permission.
@@ -396,6 +396,15 @@ function drush_install {
     logit "Done installing drush"
 }
 
+function drush_make_install {
+	echo
+	logit "Installing drush make"
+	cd /usr/local/drush/commands
+	cvs -z6 -d:pserver:anonymous:anonymous@cvs.drupal.org:/cvs/drupal-contrib checkout -d drush_make contributions/modules/drush_make
+	
+	logit "Done installing drush make"
+}
+
 function get_ubuntu_version {
     VER=$(grep DISTRIB_RELEASE /etc/lsb-release | cut -d'=' -f2)
     echo ${VER}
@@ -731,6 +740,7 @@ setup_BCFG2
 install_solr
 start_BCFG2
 drush_install
+drush_make_install
 install_pressflow
 install_solr_module 
 
