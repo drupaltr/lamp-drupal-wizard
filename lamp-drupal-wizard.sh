@@ -400,7 +400,7 @@ function drush_make_install {
 	echo
 	logit "Installing drush make"
 	cd /usr/local/drush/commands
-	cvs -z6 -d:pserver:anonymous:anonymous@cvs.drupal.org:/cvs/drupal-contrib checkout -d drush_make contributions/modules/drush_make
+	cvs -z6 -d:pserver:anonymous:anonymous@cvs.drupal.org:/cvs/drupal-contrib checkout -d drush_make-DRUPAL-6--2 -r DRUPAL-6--2 contributions/modules/drush_make/
 	
 	logit "Done installing drush make"
 }
