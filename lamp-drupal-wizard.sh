@@ -50,7 +50,7 @@ deb-src http://security.ubuntu.com/ubuntu karmic-security main restricted univer
 EOD
 
   # PHP preferences
-  cat <<EOD > /etc/apt/preferences.d
+  cat <<EOD > /etc/apt/preferences.d/php
 Package: libapache2-mod-php5
 Pin-Priority: 991
 Pin: release a=karmic-updates
@@ -575,7 +575,8 @@ function mysql_grant_user {
 ###########################################################
 
 function php_install_with_apache {
-	aptitude -y install php5 php5-mysql libapache2-mod-php5 php5-ffmpeg php-pear
+  apt-get -y update
+	apt-get -y install php5 php5-mysql libapache2-mod-php5 php5-ffmpeg php-pear
 	touch /tmp/restart-apache2
 }
 
