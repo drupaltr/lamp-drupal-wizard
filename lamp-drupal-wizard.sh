@@ -37,6 +37,270 @@
 function system_update {
 	aptitude update
 	aptitude -y full-upgrade
+	
+	# There's a problem with PHP 5.3, most modules won't work with it
+	# Please read http://groups.drupal.org/node/72718
+  cat <<EOD > /etc/apt/sources.list.d/php.list
+deb http://archive.ubuntu.com/ubuntu/  karmic main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ karmic main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ karmic-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ karmic-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu karmic-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu karmic-security main restricted universe multiverse
+EOD
+
+  # PHP preferences
+  cat <<EOD > /etc/apt/preferences.d/php
+Package: libapache2-mod-php5
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: libgv-php5
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: libsqlrelay-0.39
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-adodb
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-apache2-mod-bt
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-auth-pam
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-cgi
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-cli
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-common
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-curl
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-dbg
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-dev
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-exactimage
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-ffmpeg
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-gd
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-geoip
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-gmp
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-gpib
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-idn
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-imagick
+Pin-Priority: 991
+Pin: release a=karmic
+
+Package: php5-imap
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-interbase
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-lasso
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-ldap
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-librdf
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-mapscript
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-mcrypt
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-memcache
+Pin-Priority: 991
+Pin: release a=karmic
+
+Package: php5-mhash
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-ming
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-mysql
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-odbc
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-pgsql
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-ps
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-pspell
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-radius
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-recode
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-remctl
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-sasl
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-snmp
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-sqlite
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-sqlrelay
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-suhosin
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-svn
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-sybase
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-syck
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-symfony1.0
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-tidy
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-uuid
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-xapian
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-xcache
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-xdebug
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-xmlrpc
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php5-xsl
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php-apc
+Pin-Priority: 991
+Pin: release a=karmic
+
+Package: php-cli
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php-doc
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php-pear
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: php-pecl-memcache
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: phpunit
+Pin-Priority: 991
+Pin: release a=karmic-updates
+
+Package: sqlrelay
+Pin-Priority: 991
+Pin: release a=karmic-updates
+EOD
+
+  apt-get -y update
 }
 
 function system_primary_ip {
@@ -311,14 +575,18 @@ function mysql_grant_user {
 ###########################################################
 
 function php_install_with_apache {
-	aptitude -y install php5 php5-mysql libapache2-mod-php5
+  apt-get -y update
+	apt-get -y install php5 php5-mysql libapache2-mod-php5 php5-ffmpeg php-pear
 	touch /tmp/restart-apache2
 }
 
 function php_tune {
 	# Tunes PHP to utilize up to 32M per process
 
-	sed -i'-orig' 's/memory_limit = [0-9]\+M/memory_limit = 64M/' /etc/php5/apache2/php.ini
+	sed -i'-orig' 's/memory_limit = [0-9]\+M/memory_limit = 96M/' /etc/php5/apache2/php.ini
+	sed -i'-orig' 's/upload_max_filesize = [0-9]\+M/upload_max_filesize = 128M/' /etc/php5/apache2/php.ini
+	sed -i'-orig' 's/post_max_size = [0-9]\+M/post_max_size = 256M/' /etc/php5/apache2/php.ini
+	
 	touch /tmp/restart-apache2
 }
 
@@ -648,6 +916,29 @@ function set_fqdn {
 	logit "Done setting FQDN to $1"
 }
 
+function pecl_uploadprogress_install {
+  # Based on http://freestylesystems.co.uk/blog/installng-pecl-uploadprogress-extension-drupal-filefield-module
+  
+	# Download PECL uploadprogress extension
+	logit "Installing PECL uploadprogress extension"
+	
+	cd /tmp
+	wget http://pecl.php.net/get/uploadprogress-1.0.1.tgz
+	tar zxvf uploadprogress-1.0.1.tgz
+	cd uploadprogress-1.0.1
+	
+	phpize
+	./configure
+	make
+	make install
+	
+	cat <<EOD > /etc/php5/apache2/conf/uploadprogress.ini
+extension=uploadprogress.so
+EOD
+	
+	logit "Done installing PECL uploadprogress extension"
+}
+
 function user_input {
 	echo -n "Administrative User: "
 	read -e ADMIN_USER
@@ -732,6 +1023,7 @@ mysql_grant_user
 php_install_with_apache
 php_tune
 goodstuff
+pecl_uploadprogress_install
 restartServices
 randomString
 webmin_install
