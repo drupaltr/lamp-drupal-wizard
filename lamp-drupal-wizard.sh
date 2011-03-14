@@ -687,6 +687,14 @@ function webmin_install {
 	logit "Done installing and configuring Webmin"
 }
 
+function nfs_install {
+  logit "Installing NFS Server"
+	
+	apt-get install -f -y nfs-kernel-server
+	
+	logit "Done installing and configuring NFS Server"
+}
+
 if [ -n "${ADMIN_USER}" ]; then
     if [ -n "${ADMIN_PUBKEY}" ]; then
         add_admin_user "${ADMIN_USER}" "${ADMIN_PUBKEY}"
@@ -727,6 +735,7 @@ goodstuff
 restartServices
 randomString
 webmin_install
+nfs_install
 
 echo
 logit "Installing and configuring Postfix"
