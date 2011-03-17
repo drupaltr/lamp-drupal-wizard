@@ -34,273 +34,326 @@
 # System
 ###########################################################
 
+function get_ubuntu_version {
+    VER=$(grep DISTRIB_RELEASE /etc/lsb-release | cut -d'=' -f2)
+    echo ${VER}
+}
+
+function get_ubuntu_version_name {
+    NAME=$(grep DISTRIB_CODENAME /etc/lsb-release | cut -d'=' -f2)
+    echo ${NAME}
+}
+
+function logit {
+	# Simple logging function that prepends an easy-to-find marker '=> ' and a timestamp to a message
+	TIMESTAMP=$(date -u +'%m/%d %H:%M:%S')
+    MSG="=> ${TIMESTAMP} $1"
+    echo ${MSG}
+}
+
 function system_update {
 	aptitude update
 	aptitude -y full-upgrade
 	
+	REL_NAME=$(get_ubuntu_version_name)
+	
 	# There's a problem with PHP 5.3, most modules won't work with it
 	# Please read http://groups.drupal.org/node/72718
   cat <<EOD > /etc/apt/sources.list.d/php.list
-deb http://archive.ubuntu.com/ubuntu/  karmic main restricted universe multiverse
-deb-src http://archive.ubuntu.com/ubuntu/ karmic main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu/ karmic-updates main restricted universe multiverse
-deb-src http://archive.ubuntu.com/ubuntu/ karmic-updates main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu karmic-security main restricted universe multiverse
-deb-src http://security.ubuntu.com/ubuntu karmic-security main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/  ${REL_NAME} main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ ${REL_NAME} main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ ${REL_NAME}-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ ${REL_NAME}-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu ${REL_NAME}-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu ${REL_NAME}-security main restricted universe multiverse
 EOD
 
   # PHP preferences
   cat <<EOD > /etc/apt/preferences.d/php
 Package: libapache2-mod-php5
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: libgv-php5
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: libsqlrelay-0.39
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-adodb
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-apache2-mod-bt
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-auth-pam
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-cgi
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-cli
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-common
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-curl
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-dbg
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-dev
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-exactimage
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-ffmpeg
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-gd
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-geoip
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-gmp
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-gpib
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-idn
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-imagick
 Pin-Priority: 991
-Pin: release a=karmic
+Pin: release a=${REL_NAME}
 
 Package: php5-imap
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-interbase
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-lasso
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-ldap
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-librdf
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-mapscript
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-mcrypt
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-memcache
 Pin-Priority: 991
-Pin: release a=karmic
+Pin: release a=${REL_NAME}
 
 Package: php5-mhash
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-ming
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-mysql
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-odbc
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-pgsql
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-ps
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-pspell
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-radius
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-recode
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-remctl
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-sasl
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-snmp
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-sqlite
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-sqlrelay
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-suhosin
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-svn
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-sybase
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-syck
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-symfony1.0
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-tidy
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-uuid
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-xapian
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-xcache
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-xdebug
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-xmlrpc
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php5-xsl
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php-apc
 Pin-Priority: 991
-Pin: release a=karmic
+Pin: release a=${REL_NAME}
 
 Package: php-cli
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php-doc
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php-pear
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: php-pecl-memcache
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: phpunit
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 
 Package: sqlrelay
 Pin-Priority: 991
-Pin: release a=karmic-updates
+Pin: release a=${REL_NAME}-updates
 EOD
 
   apt-get -y update
+}
+
+
+function update_sources {
+	echo 
+    logit "Setting up apt sources and applying updates"
+    REL_NAME=$(get_ubuntu_version_name)
+    #Enable universe
+    sed -i 's/^#\(.*\) universe/\1 universe/' /etc/apt/sources.list
+    
+    #Add bzr and bcfg2 ppa's
+    cat <<EOD > /etc/apt/sources.list.d/bzr.list
+deb http://ppa.launchpad.net/bzr/ppa/ubuntu ${REL_NAME} main
+deb-src http://ppa.launchpad.net/bzr/ppa/ubuntu ${REL_NAME} main
+EOD
+    cat <<EOD > /etc/apt/sources.list.d/bcfg2.list
+deb http://ppa.launchpad.net/bcfg2/ppa/ubuntu ${REL_NAME} main
+deb-src http://ppa.launchpad.net/bcfg2/ppa/ubuntu ${REL_NAME} main
+EOD
+
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C6C1EFD
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 98932BEC
+    apt-get -y update
+    apt-get -y install language-pack-en-base
+    dpkg-reconfigure locales
+    apt-get -y upgrade
+    apt-get -y dist-upgrade
+    
+    # NOTE: When bcfg2 installs memcached, apt starts the service using the default config - a single instance.
+    # After bcfg2 reconfigures memcached to use multiple instances, the original single instance's pid is lost, and causes issues.
+    # We pre-install it, then stop it so that bcfg2 simply starts it when done configuring it
+    apt-get -y install memcached
+    /etc/init.d/memcached stop
+    logit "Done setting up apt sources and applying updates"
 }
 
 function system_primary_ip {
@@ -351,6 +404,8 @@ function apache_input {
 }
 
 function apache_install {
+echo
+	logit "Installing apache"
 	# installs the system default apache2 MPM
 	aptitude -y install apache2
 
@@ -363,9 +418,13 @@ function apache_install {
 		cat /etc/apache2/ports.conf >> /etc/apache2/ports.conf.tmp
 		mv -f /etc/apache2/ports.conf.tmp /etc/apache2/ports.conf
 	fi
+	
+	logit "Done installing apache"
 }
 
 function apache_tune {
+echo
+	logit "Tunning apache"
 	# Tunes Apache's memory to use the percentage of RAM you specify, defaulting to 40%
 
 	# $1 - the percent of system memory to allocate towards Apache
@@ -383,9 +442,14 @@ function apache_tune {
 	sed -i -e "s/\(^[ \t]*MaxClients[ \t]*\)[0-9]*/\1$MAXCLIENTS/" /etc/apache2/apache2.conf
 
 	touch /tmp/restart-apache2
+	
+	logit "Done tunning apache"
 }
 
 function apache_virtualhost {
+echo
+	
+	logit "Configuring virtualhost"
 	# Configures a VirtualHost
 
 	# $1 - required - the hostname of the virtualhost to create
@@ -413,6 +477,8 @@ function apache_virtualhost {
 	a2ensite $FQDN
 
 	touch /tmp/restart-apache2
+	
+	logit "Done configuring virtualhost"
 }
 
 function apache_virtualhost_from_rdns {
@@ -575,12 +641,19 @@ function mysql_grant_user {
 ###########################################################
 
 function php_install_with_apache {
+echo
+  logit "Installing PHP"
   apt-get -y update
-	apt-get -y install php5 php5-mysql libapache2-mod-php5 php5-ffmpeg php-pear
+	apt-get -y install php5 php5-mysql libapache2-mod-php5 php-pear ffmpeg
 	touch /tmp/restart-apache2
+	
+	logit "Done installing PHP"
 }
 
 function php_tune {
+echo
+  logit "Tunning PHP"
+
 	# Tunes PHP to utilize up to 32M per process
 
 	sed -i'-orig' 's/memory_limit = [0-9]\+M/memory_limit = 96M/' /etc/php5/apache2/php.ini
@@ -588,6 +661,8 @@ function php_tune {
 	sed -i'-orig' 's/post_max_size = [0-9]\+M/post_max_size = 256M/' /etc/php5/apache2/php.ini
 	
 	touch /tmp/restart-apache2
+	
+	logit "Done tunning PHP"
 }
 
 ###########################################################
@@ -595,11 +670,16 @@ function php_tune {
 ###########################################################
 
 function goodstuff {
+echo
+
+  logit "Installing Git and subversion"
 	# Installs the REAL vim, wget, less, and enables color root prompt and the "ll" list long alias
 
 	aptitude -y install wget vim less git-core subversion
 	sed -i -e 's/^#PS1=/PS1=/' /root/.bashrc # enable the colorful root bash prompt
 	sed -i -e "s/^#alias ll='ls -l'/alias ll='ls -al'/" /root/.bashrc # enable ll list long alias <3
+	
+	logit "Done installing Git and subversion"
 }
 
 
@@ -631,89 +711,37 @@ function randomString {
 # Modifications by Luis Elizondo <lelizondo@gmail.com>
 ###########################################################
 
-function logit {
-	# Simple logging function that prepends an easy-to-find marker '=> ' and a timestamp to a message
-	TIMESTAMP=$(date -u +'%m/%d %H:%M:%S')
-    MSG="=> ${TIMESTAMP} $1"
-    echo ${MSG}
-}
+
 
 function drush_install {
  
     echo
     logit "Installing drush"
-    apt-get -y install php5-cli php5-gd cvs git-core unzip curl
-    cd /tmp && cvs -z6 -d:pserver:anonymous:anonymous@cvs.drupal.org:/cvs/drupal-contrib checkout -d drush contributions/modules/drush
+    apt-get -y install php5-cli php5-gd git-core unzip curl
+    cd /usr/local && git clone --branch master http://git.drupal.org/project/drush.git
     if [ ! -f /tmp/drush/drush ]; then
-        echo "Could not checkout drush from cvs"
+        echo "Could not checkout drush from git"
         exit 1                            
     fi
  
-    cd /usr/local && /tmp/drush/drush dl drush 
-    # drush changed dl behavior of itself.  Sometimes it dl's to cwd, other times to ~/.drush/drush
-    if [ -d ~/.drush/drush ]; then
-        mv ~/.drush/drush .
-    fi
-    cd bin && ln -s ../drush/drush drush
+    cd /usr/local/bin/ && ln -s /usr/local/drush/drush drush
     if [ ! -x /usr/local/bin/drush ]; then
         echo "Could not install drush in /usr/local/bin"
         exit 1                    
     fi
  
-    cd && rm -rf /tmp/drush
     logit "Done installing drush"
 }
 
 function drush_make_install {
 	echo
 	logit "Installing drush make"
-	cd /usr/local/drush/commands
-	cvs -z6 -d:pserver:anonymous:anonymous@cvs.drupal.org:/cvs/drupal-contrib checkout -d drush_make-DRUPAL-6--2 -r DRUPAL-6--2 contributions/modules/drush_make/
+	cd /etc/
+	mkdir drush
+	cd drush
+	git clone --branch 6.x-2.x http://git.drupal.org/project/drush_make.git
 	
 	logit "Done installing drush make"
-}
-
-function get_ubuntu_version {
-    VER=$(grep DISTRIB_RELEASE /etc/lsb-release | cut -d'=' -f2)
-    echo ${VER}
-}
-
-function get_ubuntu_version_name {
-    NAME=$(grep DISTRIB_CODENAME /etc/lsb-release | cut -d'=' -f2)
-    echo ${NAME}
-}
-
-function update_sources {
-	echo 
-    logit "Setting up apt sources and applying updates"
-    REL_NAME=$(get_ubuntu_version_name)
-    #Enable universe
-    sed -i 's/^#\(.*\) universe/\1 universe/' /etc/apt/sources.list
-    
-    #Add bzr and bcfg2 ppa's
-    cat <<EOD > /etc/apt/sources.list.d/bzr.list
-deb http://ppa.launchpad.net/bzr/ppa/ubuntu ${REL_NAME} main
-deb-src http://ppa.launchpad.net/bzr/ppa/ubuntu ${REL_NAME} main
-EOD
-    cat <<EOD > /etc/apt/sources.list.d/bcfg2.list
-deb http://ppa.launchpad.net/bcfg2/ppa/ubuntu ${REL_NAME} main
-deb-src http://ppa.launchpad.net/bcfg2/ppa/ubuntu ${REL_NAME} main
-EOD
-
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C6C1EFD
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 98932BEC
-    apt-get -y update
-    apt-get -y install language-pack-en-base
-    dpkg-reconfigure locales
-    apt-get -y upgrade
-    apt-get -y dist-upgrade
-    
-    # NOTE: When bcfg2 installs memcached, apt starts the service using the default config - a single instance.
-    # After bcfg2 reconfigures memcached to use multiple instances, the original single instance's pid is lost, and causes issues.
-    # We pre-install it, then stop it so that bcfg2 simply starts it when done configuring it
-    apt-get -y install memcached
-    /etc/init.d/memcached stop
-    logit "Done setting up apt sources and applying updates"
 }
 
 function setup_BCFG2 {
