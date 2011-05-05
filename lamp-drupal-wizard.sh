@@ -718,7 +718,7 @@ function drush_install {
     echo
     logit "Installing drush"
     apt-get -y install php5-cli php5-gd git-core unzip curl
-    cd /usr/local && git clone --branch master http://git.drupal.org/project/drush.git
+    cd /usr/local && git clone --branch 7.x-4.x http://git.drupal.org/project/drush.git
     if [ ! -f /tmp/drush/drush ]; then
         echo "Could not checkout drush from git"
         exit 1                            
