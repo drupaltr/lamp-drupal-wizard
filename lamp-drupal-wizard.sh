@@ -1055,7 +1055,7 @@ pecl_uploadprogress_install
 restartServices
 randomString
 webmin_install
-nfs_install
+#nfs_install
 
 echo
 logit "Installing and configuring Postfix"
@@ -1064,10 +1064,10 @@ logit "Done installing and configuring Postfix"
 
 echo "mysql-server-5.1 mysql-server/root_password password ${DB_PASSWORD}" | debconf-set-selections
 echo "mysql-server-5.1 mysql-server/root_password_again password ${DB_PASSWORD}" | debconf-set-selections
-setup_BCFG2
+#setup_BCFG2
 #Tomcat looks for solr.war when starting, so we do solr before bcfg2
 install_solr
-start_BCFG2
+#start_BCFG2
 drush_install
 drush_make_install
 install_pressflow
