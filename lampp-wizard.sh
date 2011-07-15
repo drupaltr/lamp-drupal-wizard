@@ -700,7 +700,7 @@ echo
 	# Installs the REAL vim, wget, less, and enables color root prompt and the "ll" list long alias
 	apt-get -y autoremove
 	apt-get -y remove --purge wget vim less git-core subversion bzr php5-dev php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
-	apt-get -y install wget vim less git-core subversion bzr php5-dev php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
+	apt-get -y install wget vim less git-core subversion bzr php5-dev autoconf automake autotools-dev binutils gcc gcc-4.4 libc-dev-bin libc6-dev libgomp1 libltdl-dev libltdl7 libssl-dev libtool linux-libc-dev m4 manpages-dev shtool zlib1g-dev php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
 	logit "Installing Bzr"
 	apt-get -y install bzr
 	sed -i -e 's/^#PS1=/PS1=/' /root/.bashrc # enable the colorful root bash prompt
