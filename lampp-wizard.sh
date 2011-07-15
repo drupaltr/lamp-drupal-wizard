@@ -978,10 +978,10 @@ echo "The script has started, this could take about an hour, during the process 
 
 update_sources 
 system_update
+goodstuff
 system_primary_ip
 get_rdns
 get_rdns_primary_ip
-goodstuff
 apache_install
 apache_tune
 mysql_install
