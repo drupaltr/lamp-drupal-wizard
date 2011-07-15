@@ -841,7 +841,8 @@ function install_mercury_profile {
 function install_solr_module {
 	echo
     logit "Installing Solr Drupal module"
-    drush dl --destination=/srv/www/$FQDN/public_html/sites/all/modules apachesolr
+		cd /srv/www/$FQDN/public_html
+    drush dl apachesolr
     svn checkout -r22 http://solr-php-client.googlecode.com/svn/trunk/ /srv/www/$FQDN/public_html/sites/all/modules/apachesolr/SolrPhpClient
     
     mkdir -p /var/solr/conf
@@ -1023,7 +1024,7 @@ if [ ! -e /var/lib/bcfg2/Cfg/var/www/profiles/mercury/mercury.profile ]; then
   install_mercury_profile
 fi
 
-init_mercury
+#init_mercury
 echo
 logit "Restarting services"
 restartServices
