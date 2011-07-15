@@ -1034,12 +1034,12 @@ if [ -n "${NOTIFY_EMAIL}" ]; then
     logit "Sending notification email to ${NOTIFY_EMAIL}"
     /usr/sbin/sendmail "${NOTIFY_EMAIL}" <<EOD
 To: ${NOTIFY_EMAIL}
-Subject: Your Mercury installation is complete
-From: Mercury <no-reply@linode.com>
+Subject: Your Drupal installation is complete
+From: LAMPP <no-reply@$FQDN>
 
-Your Mercury installation is complete and now ready to be configured: http://$(system_primary_ip)/install.php  Select "Mercury" as your installation profile, and continue as you normally would. You can also access Webmin by going to: https://$(system_primary_ip):10000. In a few seconds you will receive an email with the log of the script.
+Your Drupal installation is complete and now ready to be configured: http://$(system_primary_ip)/install.php  Select "Drupal" as your installation profile, and continue as you normally would. You can also access Webmin by going to: https://$(system_primary_ip):10000.
 
-Enjoy the speed of Mercury!
+Enjoy Drupal!
 EOD
 fi
 
