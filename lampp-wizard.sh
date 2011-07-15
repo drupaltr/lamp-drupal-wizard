@@ -347,6 +347,7 @@ EOD
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C6C1EFD
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 98932BEC
     apt-get -y update
+		apt-get -y remove --purge language-pack-en-base
     apt-get -y install language-pack-en-base
     dpkg-reconfigure locales
     apt-get -y upgrade
@@ -359,6 +360,7 @@ function install_memcached {
 	echo 
     logit "Installing & Configuring Memcached"
 		
+		apt-get -y remove --purge memcached
 		apt-get -y install memcached
     /etc/init.d/memcached stop
 		
@@ -401,7 +403,8 @@ function postfix_install_loopback_only {
 	echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
 	echo "postfix postfix/mailname string localhost" | debconf-set-selections
 	echo "postfix postfix/destinations string localhost.localdomain, localhost" | debconf-set-selections
-	aptitude -y install postfix
+	apt-get -y remove --purge postfix
+	apt-get -y install postfix
 	/usr/sbin/postconf -e "inet_interfaces = loopback-only"
 	#/usr/sbin/postconf -e "local_transport = error:local delivery is disabled"
 
@@ -421,7 +424,8 @@ function apache_install {
 echo
 	logit "Installing apache"
 	# installs the system default apache2 MPM
-	aptitude -y install apache2
+	apt-get -y remove --purge apache2
+	apt-get -y install apache2
 
 	a2dissite default # disable the interfering default virtualhost
 
@@ -447,8 +451,9 @@ echo
 		then PERCENT=40
 		else PERCENT="$1"
 	fi
-
-	aptitude -y install apache2-mpm-prefork
+	
+	apt-get -y remove --purge apache2-mpm-prefork
+	apt-get -y install apache2-mpm-prefork
 	PERPROCMEM=10 # the amount of memory in MB each apache process is likely to utilize
 	MEM=$(grep MemTotal /proc/meminfo | awk '{ print int($2/1024) }') # how much memory in MB this system has
 	MAXCLIENTS=$((MEM*PERCENT/100/PERPROCMEM)) # calculate MaxClients
@@ -475,10 +480,12 @@ echo
 	fi
 
 	if [ -e "/etc/apache2/sites-available/$FQDN" ]; then
-		echo /etc/apache2/sites-available/$FQDN already exists
+		echo /etc/apache2/sites-available/$FQDN already exists.. deleting...
+		rm -f /etc/apache2/sites-available/$FQDN
 		return;
 	fi
 
+	rm -Rf /srv/www
 	mkdir -p /srv/www/$FQDN/public_html /srv/www/$FQDN/logs
 
 	echo "<VirtualHost *:80>" > /etc/apache2/sites-available/$FQDN
@@ -660,6 +667,7 @@ function php_install_with_apache {
 echo
   logit "Installing PHP"
   apt-get -y update
+	apt-get -y remvoe --purge php5 php5-mysql libapache2-mod-php5 php-pear ffmpeg
 	apt-get -y install php5 php5-mysql libapache2-mod-php5 php-pear ffmpeg
 	touch /tmp/restart-apache2
 	
@@ -691,7 +699,8 @@ echo
   logit "Installing Git and subversion"
 	# Installs the REAL vim, wget, less, and enables color root prompt and the "ll" list long alias
 
-	aptitude -y install wget vim less git-core subversion bzr
+	apt-get -y remove --purge wget vim less git-core subversion bzr php-devel php5-cli php5-gd unzip curl tomcat6
+	apt-get -y install wget vim less git-core subversion bzr php-devel php5-cli php5-gd unzip curl tomcat6
 	sed -i -e 's/^#PS1=/PS1=/' /root/.bashrc # enable the colorful root bash prompt
 	sed -i -e "s/^#alias ll='ls -l'/alias ll='ls -al'/" /root/.bashrc # enable ll list long alias <3
 	
@@ -727,13 +736,12 @@ function randomString {
 # Modifications by Luis Elizondo <lelizondo@gmail.com>
 ###########################################################
 
-
-
 function drush_install {
  
     echo
     logit "Installing drush"
-    apt-get -y install php5-cli php5-gd git-core unzip curl
+		rm -Rf /usr/local/drush
+		rm -Rf /usr/local/bin/drush
     cd /usr/local && git clone --branch 7.x-4.x http://git.drupal.org/project/drush.git
     #if [ ! -f /tmp/drush/drush ]; then
     #    echo "Could not checkout drush from git"
@@ -753,6 +761,7 @@ function drush_make_install {
 	echo
 	logit "Installing drush make"
 	cd /etc/
+	rm -Rf /etc/drush
 	mkdir drush
 	cd drush
 	git clone --branch 6.x-2.x http://git.drupal.org/project/drush_make.git
@@ -769,7 +778,6 @@ function install_solr {
     DATE=$(date +%Y-%m-%d)
 		# Get the scripts
 		bzr branch lp:pantheon/$(get_branch) /tmp/bcfg2
-    apt-get -y install wget tomcat6
     wget "${SOLR_TGZ}" -O /var/tmp/solr.tgz
     cd /var/tmp/
     tar -xzf solr.tgz
@@ -777,10 +785,7 @@ function install_solr {
     mv apache-solr-1.4.0/dist/apache-solr-1.4.0.war /var/solr/solr.war
     # Workaround for bug reported here: http://colabti.org/irclogger/irclogger_log/bcfg2?date=2010-04-01#l29
     # Since bcfg2 hangs when starting jsvc, we pre-install and configure everything tomcat, so bcfg2 doesn't attempt to reconfig and restart it.
-    apt-get -y install ca-certificates-java default-jre-headless gcj-4.3-base icedtea-6-jre-cacao java-common \
-      libaccess-bridge-java libcommons-collections-java libcommons-dbcp-java libcommons-pool-java libcups2 \
-      libecj-java libecj-java-gcj libgcj9-0 libgcj9-jar libgcj-bc libgcj-common liblcms1 libservlet2.5-java \
-      rhino tomcat6 tzdata-java
+    apt-get -y install ca-certificates-java default-jre-headless gcj-4.3-base icedtea-6-jre-cacao java-common libaccess-bridge-java libcommons-collections-java libcommons-dbcp-java libcommons-pool-java libcups2 libecj-java libecj-java-gcj libgcj9-0 libgcj9-jar libgcj-bc libgcj-common liblcms1 libservlet2.5-java       rhino tomcat6 tzdata-java
     chown -R tomcat6:root /var/solr/
     cp /tmp/bcfg2/Cfg/etc/default/tomcat6/tomcat6 /etc/default/tomcat6
     chown -R root:tomcat6 /etc/tomcat6/Catalina
@@ -936,8 +941,9 @@ function webmin_install {
 	
 	WEBMIN=webmin_1.510-2_all.deb
 	
+	rm -f /tmp/$WEBMIN
+	cd /tmp
 	wget http://prdownloads.sourceforge.net/webadmin/$WEBMIN
-	mv $WEBMIN /tmp
 	dpkg --install /tmp/$WEBMIN
 	apt-get install -f -y
 	
@@ -976,6 +982,7 @@ system_primary_ip
 get_rdns
 get_rdns_primary_ip
 postfix_install_loopback_only
+goodstuff
 apache_install
 apache_tune
 apache_virtualhost
@@ -989,7 +996,6 @@ mysql_grant_user
 php_install_with_apache
 php_tune
 install_memcached
-goodstuff
 pecl_uploadprogress_install
 restartServices
 randomString
@@ -1037,5 +1043,5 @@ fi
 
 if [ -n "${NOTIFY_EMAIL}" ]; then
     logit "Sending email with log to ${NOTIFY_EMAIL}"
-    cat /var/log/lampp-wizard.log | mail -s "Script Log" "${NOTIFY_EMAIL}" 
+    mail -s "Script Log" "${NOTIFY_EMAIL}" 
 fi
