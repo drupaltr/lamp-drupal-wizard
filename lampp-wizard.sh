@@ -1045,5 +1045,4 @@ fi
 
 if [ -n "${NOTIFY_EMAIL}" ]; then
     logit "Sending email with log to ${NOTIFY_EMAIL}"
-    mail -s "Script Log" "${NOTIFY_EMAIL}" 
 fi
