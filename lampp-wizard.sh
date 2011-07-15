@@ -968,9 +968,9 @@ user_input
 mysql_input
 notify_input
 echo "The script has started, this could take about an hour, during the process you will not see anything. After the script is finished, an email will be sent and everything will be logged to a file in your home directory."
-exec &> /var/log/lampp-wizard.log
+#exec &> /var/log/lampp-wizard.log
 
-update_sources
+update_sources 
 system_update
 system_primary_ip
 get_rdns
