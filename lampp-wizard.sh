@@ -473,15 +473,15 @@ echo
 
 	# $1 - required - the hostname of the virtualhost to create
 	# $1 = $FQDN
-
+	rm -f /etc/apache2/sites-available/$FQDN
+	
 	if [ ! -n "$FQDN" ]; then
 		echo "apache_virtualhost() requires the hostname as the first argument"
 		return 1;
 	fi
 
 	if [ -e "/etc/apache2/sites-available/$FQDN" ]; then
-		echo /etc/apache2/sites-available/$FQDN already exists.. deleting...
-		rm -f /etc/apache2/sites-available/$FQDN
+		echo /etc/apache2/sites-available/$FQDN already exists..
 		return;
 	fi
 
@@ -985,9 +985,6 @@ postfix_install_loopback_only
 goodstuff
 apache_install
 apache_tune
-apache_virtualhost
-apache_virtualhost_from_rdns
-apache_virtualhost_get_docroot
 mysql_install
 mysql_tune
 mysql_create_database
@@ -997,6 +994,9 @@ php_install_with_apache
 php_tune
 install_memcached
 pecl_uploadprogress_install
+apache_virtualhost
+apache_virtualhost_from_rdns
+apache_virtualhost_get_docroot
 restartServices
 randomString
 webmin_install
