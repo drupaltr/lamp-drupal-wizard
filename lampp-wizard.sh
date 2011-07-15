@@ -547,7 +547,7 @@ function mysql_install {
 	echo "mysql-server-5.1 mysql-server/root_password password $DB_PASSWORD" | debconf-set-selections
 	echo "mysql-server-5.1 mysql-server/root_password_again password $DB_PASSWORD" | debconf-set-selections
 	# To avoid mysql asking questions, we remove it first and then install it
-	apt-get remove --purge mysql-server mysql-client
+	apt-get -y remove --purge mysql-server mysql-client
 	apt-get -y install mysql-server mysql-client
 
 	echo "Sleeping while MySQL starts up for the first time..."
@@ -667,7 +667,7 @@ function php_install_with_apache {
 echo
   logit "Installing PHP"
   apt-get -y update
-	apt-get -y remvoe --purge php5 php5-mysql libapache2-mod-php5 php-pear ffmpeg
+	apt-get -y remove --purge php5 php5-mysql libapache2-mod-php5 php-pear ffmpeg
 	apt-get -y install php5 php5-mysql libapache2-mod-php5 php-pear ffmpeg
 	touch /tmp/restart-apache2
 	
@@ -698,9 +698,9 @@ echo
 
   logit "Installing Git and subversion"
 	# Installs the REAL vim, wget, less, and enables color root prompt and the "ll" list long alias
-
-	apt-get -y remove --purge wget vim less git-core subversion bzr php-devel php5-cli php5-gd unzip curl tomcat6
-	apt-get -y install wget vim less git-core subversion bzr php-devel php5-cli php5-gd unzip curl tomcat6
+	apt-get -y autoremove
+	apt-get -y remove --purge wget vim less git-core subversion bzr php-devel php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
+	apt-get -y install wget vim less git-core subversion bzr php-devel php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
 	sed -i -e 's/^#PS1=/PS1=/' /root/.bashrc # enable the colorful root bash prompt
 	sed -i -e "s/^#alias ll='ls -l'/alias ll='ls -al'/" /root/.bashrc # enable ll list long alias <3
 	
@@ -981,7 +981,6 @@ system_update
 system_primary_ip
 get_rdns
 get_rdns_primary_ip
-postfix_install_loopback_only
 goodstuff
 apache_install
 apache_tune
