@@ -880,7 +880,7 @@ mysql_create_user
 mysql_grant_user
 php_install_with_apache
 php_tune
-install_memcached
+
 pecl_uploadprogress_install
 apache_virtualhost
 apache_virtualhost_from_rdns
@@ -898,7 +898,6 @@ logit "Done installing and configuring Postfix"
 echo "mysql-server-5.1 mysql-server/root_password password ${DB_PASSWORD}" | debconf-set-selections
 echo "mysql-server-5.1 mysql-server/root_password_again password ${DB_PASSWORD}" | debconf-set-selections
 #Tomcat looks for solr.war when starting, so we do solr before bcfg2
-install_solr
 #start_BCFG2
 drush_install
 drush_make_install
