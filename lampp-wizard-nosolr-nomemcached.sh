@@ -179,6 +179,8 @@ echo
 	MAXCLIENTS=$((MEM*PERCENT/100/PERPROCMEM)) # calculate MaxClients
 	MAXCLIENTS=${MAXCLIENTS/.*} # cast to an integer
 	sed -i -e "s/\(^[ \t]*MaxClients[ \t]*\)[0-9]*/\1$MAXCLIENTS/" /etc/apache2/apache2.conf
+	
+	a2enmod rewrite
 
 	touch /tmp/restart-apache2
 	
