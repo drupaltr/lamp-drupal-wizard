@@ -64,11 +64,8 @@ function system_update {
 	
 	# There's a problem with PHP 5.3, most modules won't work with it
 	# Please read http://groups.drupal.org/node/72718
-  
-
-
-
-  apt-get -y update
+	
+  	apt-get -y update
 }
 
 function update_sources {
@@ -76,14 +73,20 @@ function update_sources {
     logit "Setting up apt sources and applying updates"
     REL_NAME=$(get_ubuntu_version_name)
     #Enable universe
-    sed -i 's/^#\(.*\) universe/\1 universe/' /etc/apt/sources.list
+    #sed -i 's/^#\(.*\) universe/\1 universe/' /etc/apt/sources.list
 
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8C6C1EFD
     apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 98932BEC
     apt-get -y update
-		apt-get -y remove --purge language-pack-en-base
+	apt-get -y remove --purge language-pack-en-base
     apt-get -y install language-pack-en-base
-    dpkg-reconfigure locales
+    
+    export LANGUAGE=en_US.UTF-8
+	export LANG=en_US.UTF-8
+	export LC_ALL=en_US.UTF-8
+	locale-gen en_US.UTF-8
+	dpkg-reconfigure locales
+
     apt-get -y upgrade
     # apt-get -y dist-upgrade
     
@@ -244,8 +247,6 @@ function apache_virtualhost_get_docroot {
 function mysql_input {
 	echo -n "Root password for MySQL: "
 	read -e DB_PASSWORD
-	echo -n "Database name: "
-	read -e DB_NAME
 	echo -n "Database user: "
 	read -e DB_USER
 	echo -n "Database user password: "
@@ -306,24 +307,6 @@ function mysql_tune {
 	sed -i -e "s/\(\[mysqld\]\)/\1\n$config\n/" /etc/mysql/my.cnf
 
 	touch /tmp/restart-mysql
-}
-
-function mysql_create_database {
-	# $1 - the mysql root password
-	# $1 = $DB_PASSWORD
-	# $2 - the db name to create
-	# $2 = $DB_NAME
-
-	if [ ! -n "$DB_PASSWORD" ]; then
-		echo "mysql_create_database() requires the root pass as its first argument"
-		return 1;
-	fi
-	if [ ! -n "$DB_NAME" ]; then
-		echo "mysql_create_database() requires the name of the database as the second argument"
-		return 1;
-	fi
-
-	echo "CREATE DATABASE $DB_NAME;" | mysql -u root -p$DB_PASSWORD
 }
 
 function mysql_create_user {
@@ -410,14 +393,13 @@ echo
 # Other niceties!
 ###########################################################
 
-function goodstuff {
+function goodstuff_install {
 echo
-
   logit "Installing Git and subversion"
 	# Installs the REAL vim, wget, less, and enables color root prompt and the "ll" list long alias
 	apt-get -y autoremove
 	apt-get -y remove --purge wget vim less git-core subversion bzr php5-dev php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
-	apt-get -y install wget vim less git-core subversion bzr php5-dev autoconf automake autotools-dev binutils gcc gcc-4.4 libc-dev-bin libc6-dev libgomp1 libltdl-dev libltdl7 libssl-dev libtool linux-libc-dev m4 manpages-dev shtool zlib1g-dev php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto python-paramik bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
+	apt-get -y install wget vim less git-core subversion bzr php5-dev autoconf automake autotools-dev binutils gcc gcc-4.4 libc-dev-bin libc6-dev libgomp1 libltdl-dev libltdl7 libssl-dev libtool linux-libc-dev m4 manpages-dev shtool zlib1g-dev php5-cli php5-gd unzip curl tomcat6 bzrtools python-bzrlib python-crypto bzr-gtk bzr-svn bzr-doc python-testtools librsvg2-bin graphviz xdg-utils python-kerberos python-crypto-dbg
 	logit "Installing Bzr"
 	apt-get -y install bzr
 	sed -i -e 's/^#PS1=/PS1=/' /root/.bashrc # enable the colorful root bash prompt
@@ -515,7 +497,7 @@ function pecl_uploadprogress_install {
   
 	# Download PECL uploadprogress extension
 	logit "Installing PECL uploadprogress extension"
-	
+	apt-get install -y php5-dev
 	cd /tmp
 	wget http://pecl.php.net/get/uploadprogress-1.0.1.tgz
 	tar zxvf uploadprogress-1.0.1.tgz
@@ -601,20 +583,18 @@ echo "The script has started, this could take about an hour, during the process 
 
 update_sources 
 system_update
-goodstuff
 system_primary_ip
 get_rdns
 get_rdns_primary_ip
+goodstuff_install
 apache_install
 apache_tune
 mysql_install
 mysql_tune
-mysql_create_database
 mysql_create_user
 mysql_grant_user
 php_install_with_apache
 php_tune
-
 pecl_uploadprogress_install
 apache_virtualhost
 apache_virtualhost_from_rdns
