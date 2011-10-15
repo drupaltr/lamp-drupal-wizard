@@ -58,6 +58,7 @@ function logit {
 }
 
 function system_update {
+	apt-get -y install gnupg
 	apt-get update
 	apt-get -y full-upgrade
 	
