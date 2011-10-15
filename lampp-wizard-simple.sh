@@ -58,8 +58,8 @@ function logit {
 }
 
 function system_update {
-	aptitude update
-	aptitude -y full-upgrade
+	apt-get update
+	apt-get -y full-upgrade
 	
 	REL_NAME=$(get_ubuntu_version_name)
 	
@@ -103,7 +103,7 @@ function get_rdns {
 	# calls host on an IP address and returns its reverse dns
 
 	if [ ! -e /usr/bin/host ]; then
-		aptitude -y install dnsutils > /dev/null
+		apt-get -y install dnsutils > /dev/null
 	fi
 	echo $(host $1 | awk '/pointer/ {print $5}' | sed 's/\.$//')
 }
