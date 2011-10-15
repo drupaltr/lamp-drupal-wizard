@@ -72,7 +72,7 @@ function system_update {
 function update_sources {
 	echo 
     logit "Setting up apt sources and applying updates"
-		apt-get -y install gnupg
+		apt-get -y install gnupg dialog
     REL_NAME=$(get_ubuntu_version_name)
     #Enable universe
     #sed -i 's/^#\(.*\) universe/\1 universe/' /etc/apt/sources.list
